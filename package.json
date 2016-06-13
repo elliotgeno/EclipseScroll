@@ -1,0 +1,19 @@
+{
+  "name": "EclipseScroll",
+  "version": "0.0.0",
+  "description": "EclipseScroll allows you to retrieve metrics about the visibility of elements while scrolling. Currently only the vertical scroll is measured.",
+  "main": "EclipseScroll.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elliotgeno/EclipseScroll"
+  },
+  "author": "Elliot Geno <elliotgeno@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elliotgeno/EclipseScroll/issues"
+  },
+  "homepage": "https://github.com/elliotgeno/EclipseScroll"
+}
