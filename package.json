@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/elliotgeno/EclipseScroll/issues"
   },
-  "homepage": "https://github.com/elliotgeno/EclipseScroll"
+  "homepage": "https://github.com/elliotgeno/EclipseScroll",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
 }
