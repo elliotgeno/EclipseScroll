@@ -1,6 +1,6 @@
 {
   "name": "EclipseScroll",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "description": "EclipseScroll allows you to retrieve metrics about the visibility of elements while scrolling. Currently only the vertical scroll is measured.",
   "main": "EclipseScroll.js",
   "scripts": {
