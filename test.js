@@ -3,6 +3,7 @@ var assert = chai.assert;
 describe("EclipseScroll", function () {
 	beforeEach(function(){
 		EclipseScroll.removeAll();
+		window.scrollTo(0,0);
 	});
 	
 	it("should create a new instance of EclipseScroll", function () {
@@ -36,5 +37,11 @@ describe("EclipseScroll", function () {
 		assert.equal(EclipseScroll.elements.length,1);
 	});
 	
-	
+	it("should detect if object is visible after scroll", function (){
+		var element = document.querySelector(".single-item");
+		EclipseScroll.add(element);
+		assert.equal(EclipseScroll.getData(element).visible,false);
+		window.scrollTo(0,600);
+		setTimeout(function(){assert.equal(EclipseScroll.getData(element).visible,true)},50);
+	});
 });

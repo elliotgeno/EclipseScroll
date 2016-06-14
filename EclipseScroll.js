@@ -19,11 +19,11 @@
 		// event handler for window scrolling or resizing
 		function onScroll(e) {
 			scroll = window.pageYOffset;
-			EclipseScroll.pageProgress = scroll / (document.documentElement.offsetHeight - window.innerHeight);
-			EclipseScroll.isForward = scroll - previousScroll > 0;
+			this.pageProgress = scroll / (document.documentElement.offsetHeight - window.innerHeight);
+			this.isForward = scroll - previousScroll > 0;
 			previousScroll = scroll;
-			for (var i = 0; i < EclipseScroll.elements.length; i++) {
-				updateData(EclipseScroll.elements[i]);
+			for (var i = 0; i < this.elements.length; i++) {
+				updateData(this.elements[i]);
 			}
 		}
 
@@ -40,7 +40,7 @@
 				var min = Math.max(0, top);
 				var max = Math.min(windowHeight, top + height);
 				data.overlap = Math.max(0, max - min);
-				data.visble = data.overlap > 0;
+				data.visible = data.overlap > 0;
 				data.visibility = data.overlap / Math.min(windowHeight, height);
 				if (data.callback) {
 					data.callback(data);
@@ -50,7 +50,7 @@
 
 		// add element or list of elements and associating callbacks
 		function addElement(element, callback) {
-			EclipseScroll.elements.push(element);
+			this.elements.push(element);
 			element.__scrollData = {
 				element: element,
 				callback: callback,
@@ -60,8 +60,9 @@
 				innerProgress: 0,
 				overlap: 0
 			}
-			window.addEventListener("scroll", onScroll);
-			window.addEventListener("resize", onScroll);
+			updateData(element);
+			window.addEventListener("scroll", onScroll.bind(this));
+			window.addEventListener("resize", onScroll.bind(this));
 		}
 
 		// exposed method for adding elements and associating callbacks
@@ -70,23 +71,23 @@
 				if (elements.length) {
 					for (var i = 0; i < elements.length; i++) {
 						var element = elements[i];
-						addElement(element, callback);
+						addElement.call(this, element, callback);
 					}
 				} else {
-					addElement(elements, callback);
+					addElement.call(this, elements, callback);
 				}
 			}
 		};
 
 		// remove element or list of elements
 		function removeElement(element) {
-			var index = EclipseScroll.elements.indexOf(element);
+			var index = this.elements.indexOf(element);
 			if (index > -1) {
-				EclipseScroll.elements.splice(index, 1);
+				this.elements.splice(index, 1);
 			}
-			if (EclipseScroll.elements.length == 0) {
-				window.removeEventListener("scroll", onScroll);
-				window.removeEventListener("resize", onScroll);
+			if (this.elements.length == 0) {
+				window.removeEventListener("scroll", onScroll.bind(this));
+				window.removeEventListener("resize", onScroll.bind(this));
 			}
 		}
 
@@ -96,21 +97,25 @@
 				if (elements.length) {
 					for (var i = 0; i < elements.length; i++) {
 						var element = elements[i];
-						removeElement(element);
+						removeElement.call(this,element);
 					}
 				} else {
-					removeElement(elements);
+					removeElement.call(this,elements);
 				}
 			}
 		};
 		// exposed method for removing all elements
 		__eScroll.prototype.removeAll = function () {
-			EclipseScroll.elements = [];
-			window.removeEventListener("scroll", onScroll);
-			window.removeEventListener("resize", onScroll);
+			this.elements = [];
+			window.removeEventListener("scroll", onScroll.bind(this));
+			window.removeEventListener("resize", onScroll.bind(this));
+		};
+		__eScroll.prototype.getData = function (element) {
+			console.log(element.__scrollData.visible);
+			return element.__scrollData;
 		};
 	}
-	if (window.eclipseScroll) {
+	if (window.EclipseScroll) {
 		console.warn("Only include one script instance of EclipseScroll!");
 		return window.EclipseScroll;
 	} else {
